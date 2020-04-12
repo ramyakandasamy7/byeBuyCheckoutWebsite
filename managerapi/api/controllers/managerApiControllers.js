@@ -43,6 +43,25 @@ exports.get_a_manager = function(req, res) {
 	});
 };
 
+exports.authenticate_a_manager = function(req, res) {
+	var params = {
+		TableName: "bbc_mgmt_users",
+		IndexName: 'email-index',
+		KeyConditionExpression: "email = :e",
+		ExpressionAttributeValues: {
+			":e": req.body.email
+		}
+	};
+	doc.query(params, function(err, data) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.status(200);
+			res.json(data);
+		}
+	});
+};
+
 exports.update_a_manager = function(req, res) {
 };
 

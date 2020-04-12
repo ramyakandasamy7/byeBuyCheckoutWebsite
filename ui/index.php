@@ -1,6 +1,7 @@
 <?php
 session_start();
-header("Location: login/index.php");
+header("Access-Control-Allow-Origin: *");
+header("Location: login");
 exit();
 ?>
 

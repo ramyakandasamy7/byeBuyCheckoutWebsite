@@ -8,10 +8,11 @@ aws.config.update({
 });
 
 var doc = new aws.DynamoDB.DocumentClient();
+var TABLE_NAME = "bbcManagerUsers";
 
 exports.get_all_managers = function(req, res) {
 	var params = {
-		TableName: "bbc_mgmt_users"
+		TableName: TABLE_NAME
 	};
 	doc.scan(params, (err, data) => {
 		if (err) {
@@ -26,7 +27,7 @@ exports.get_all_managers = function(req, res) {
 
 exports.get_a_manager = function(req, res) {
 	var params = {
-		TableName: "bbc_mgmt_users",
+		TableName: TABLE_NAME,
 		KeyConditionExpression: "id = :i",
 		ExpressionAttributeValues: {
 			":i": req.params.id
@@ -44,7 +45,7 @@ exports.get_a_manager = function(req, res) {
 
 exports.authenticate_a_manager = function(req, res) {
 	var params = {
-		TableName: "bbc_mgmt_users",
+		TableName: TABLE_NAME,
 		IndexName: 'email-index',
 		KeyConditionExpression: "email = :e",
 		ExpressionAttributeValues: {

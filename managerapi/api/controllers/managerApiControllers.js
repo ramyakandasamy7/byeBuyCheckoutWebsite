@@ -25,7 +25,6 @@ exports.get_all_managers = function(req, res) {
 };
 
 exports.get_a_manager = function(req, res) {
-	console.log(req.params.id);
 	var params = {
 		TableName: "bbc_mgmt_users",
 		KeyConditionExpression: "id = :i",
@@ -56,8 +55,9 @@ exports.authenticate_a_manager = function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
+			console.log(data);
 			res.status(200);
-			res.json(data);
+			res.json(data.Items[0]);
 		}
 	});
 };

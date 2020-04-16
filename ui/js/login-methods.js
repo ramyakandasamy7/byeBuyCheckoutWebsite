@@ -11,6 +11,8 @@ function login() {
 		data: {email: u, password: p}
 	}).done(function(data) {
 		console.log(data);
+		setUserInfo(data.email, data.name, data.id, data.storeId);
+		location.replace('https://bbc.ramyasmsseproject.com/dashboard');
 	});
 }
 

@@ -8,14 +8,16 @@ aws.config.update({
 });
 
 var doc = new aws.DynamoDB.DocumentClient();
-var TABLE_NAME = "bbcManagerUsers";
+var TABLE_NAME = "Product-odszoccyjndcdcjgwz2spjlkau-rebuild";
 
-exports.get_all_managers = function(req, res) {
+exports.getAllInventories = function(req, res) {
+	console.log("Getting all items...");
 	var params = {
 		TableName: TABLE_NAME
 	};
 	doc.scan(params, (err, data) => {
 		if (err) {
+			console.log(err);
 			res.send(err);
 		} else {
 			console.log(data);
@@ -25,7 +27,8 @@ exports.get_all_managers = function(req, res) {
 	});
 };
 
-exports.get_a_manager = function(req, res) {
+exports.getAnInventory = function(req, res) {
+	console.log("Getting an inventory item...");
 	var params = {
 		TableName: TABLE_NAME,
 		KeyConditionExpression: "id = :i",
@@ -35,36 +38,43 @@ exports.get_a_manager = function(req, res) {
 	};
 	doc.query(params, function(err, data) {
 		if (err) {
+			console.log(err);
 			res.send(err);
 		} else {
+			console.log(data);
 			res.status(200);
 			res.json(data);
 		}
 	});
 };
 
-exports.authenticate_a_manager = function(req, res) {
+exports.getAllInventoryFromStore = function(req, res) {
+	console.log("Getting all inventory from store...");
+	console.log(req.params);
+	console.log(req.query);
+	console.log(req.body);
 	var params = {
 		TableName: TABLE_NAME,
-		IndexName: 'email-index',
-		KeyConditionExpression: "email = :e",
+		IndexName: "gsi-StoreProducts",
+		KeyConditionExpression: "productStoreId = :storeId",
 		ExpressionAttributeValues: {
-			":e": req.body.email
+			":storeId": req.params.storeId
 		}
 	};
 	doc.query(params, function(err, data) {
 		if (err) {
+			console.log(err);
 			res.send(err);
 		} else {
 			console.log(data);
 			res.status(200);
-			res.json(data.Items[0]);
+			res.json(data.Items);
 		}
 	});
 };
 
-exports.update_a_manager = function(req, res) {
+exports.updateAManager = function(req, res) {
 };
 
-exports.delete_a_manager = function(req, res) {
+exports.deleteAManager = function(req, res) {
 };

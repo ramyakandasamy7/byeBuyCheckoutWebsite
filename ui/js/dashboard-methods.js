@@ -1,13 +1,24 @@
 
-function getAllInventory() {
+function getAllInventoryFromStore() {
 	$.ajax({
-		url: INVENTORY_API+"inventory/"+storeId,
+		url: MANAGER_API+"inventories/"+storeId,
 		type: "GET",
 		dataType: "json"
 	}).done(function(data) {
-		console.log(data.Items);
-		renderInventoryTable(data.Items);
+		console.log(data);
+		renderInventoryTable(data);
 	});	
+}
+
+function getAllStores() {
+	$.ajax({
+		url: MANAGER_API+"stores",
+		type: "GET",
+		dataType: "json"
+	}).done(function(data) {
+		console.log(data);
+		renderStoresTable(data);
+	});
 }
 
 function updateInventoryTable(data) {

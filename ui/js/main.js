@@ -1,6 +1,5 @@
 
-var MGMT_USER_API = "https://bbcbe.ramyasmsseproject.com/managerapi/"
-var INVENTORY_API = "https://bbcbe.ramyasmsseproject.com/inventoryapi/"
+var MANAGER_API = "https://bbcbe.ramyasmsseproject.com/managerapi/"
 
 function setUserInfo(email, name, id, storeId) {
 	localStorage.setItem("email",  email);

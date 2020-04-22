@@ -15,7 +15,9 @@ function initUI() {
 	renderContainers();
 	renderNavigationBar();
 	renderContents();
-	getAllInventory();
+	renderModal();
+	getAllInventoryFromStore();
+	getAllStores();
 }
 
 function renderContainers() {
@@ -45,7 +47,7 @@ function renderNavigationBar() {
 			+"<div class='container'>"
 				+"<nav class='nav flex-column nav-pills'>"
 					+"<a data-toggle='tab' class='nav-link active' href='#main_inventory_content'>Inventory</a>"
-					+"<a data-toggle='tab' class='nav-link' href='#add_inventory_content'>Inventory Entry</a>"
+					+"<a data-toggle='tab' class='nav-link' href='#stores_content'>Stores</a>"
 				+"</nav>"
 			+"</div>"
 		+"</div>"
@@ -57,11 +59,14 @@ function renderContents() {
 		"<div class='container-fluid'>"
 			+"<div class='tab-content'>"
 				+"<div class='tab-pane fade-in active' id='main_inventory_content'>"
-					+"<h5>Store Inventory</h5>"
+					+"<h3>Store "+storeId+"'s Inventory</h3>"
+					+"<button type='button' class='btn btn-primary btn-sm mb-5' data-toggle='modal' data-target='#inventory_modal' onclick='showAddItem();'>Add An Item</button>"
 					+"<table class='table table-striped table-sm' id='inventory_table'></table>"
 				+"</div>"
-				+"<div class='tab-pane fade' id='add_inventory_content'>"
-					+"<h5>Add Store Inventory</h5>"
+				+"<div class='tab-pane fade' id='stores_content'>"
+					+"<h3>List of Stores</h3>"
+					+"<button type='button' class='btn btn-primary btn-sm mb-5' data-toggle='modal' data-target='#inventory_modal' onclick='showAddStore();'>Add A Store Location</button>"
+					+"<table class='table table-striped table-sm' id='stores_table'></table>"
 				+"</div>"
 			+"</div>"
 		+"</div>"
@@ -73,6 +78,7 @@ function renderInventoryTable(data) {
 	console.log(data);
 	window.inventoryTable = $("#inventory_table").DataTable({
 		"pageLength": 50,
+		"autoWidth": false,
 		"data":data,
 		"columns": [
 			{ "title": "Name",     "data": "name"    },
@@ -80,4 +86,57 @@ function renderInventoryTable(data) {
 			{ "title": "Quantity", "data": "quantity"}
 		]
 	}); 
+}
+
+function renderStoresTable(data) {
+	console.log("StoresTable");
+	console.log(data);
+	window.inventoryTable = $("#stores_table").DataTable({
+		"pageLength": 50,
+		"autoWidth": false,
+		"data":data,
+		"columns": [
+			{ "title": "Name",     "data": "name"    },
+			{ "title": "Address",  "data": "address" }
+		]
+	}); 
+}
+
+function renderModal() {
+	$("#root").append(
+		"<div class='modal fade' id='inventory_modal' tabindex='-1' role='dialog' aria-labelledby='Inventory Modal' aria-hidden='true'>"
+			+"<div class='modal-dialog' role='document'>"
+				+"<div class='modal-content'>"
+					+"<div class='modal-header'>"
+						+"<h5 class='modal-title' id='modal_header'></h5>"
+						+"<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+							+"<span aria-hidden='true'>&times</span>"
+						+"</button>"
+					+"</div>"
+					+"<div class='modal-body' id='modal_body'>"
+					+"</div>"
+					+"<div class='modal-footer' id='modal_footer'>"
+						+"<button type='button' class='btn btn-primary btn-sm' onclick='addLocation();'>Add</button>"
+						+"<button type='button' class='btn btn-danger btn-sm' data-dismiss='modal'>Close</button>"
+					+"</div>"
+				+"</div>"
+			+"</div>"
+		+"</div>"
+	);
+}
+
+function clearModalBody() {
+	$("#modal_body").empty();
+	$("#modal_footer").empty();
+}
+
+function addModalHeader(txt) {
+	$("#modal_header").empty();
+	$("#modal_header").append(txt);
+}
+
+function showAddItem() {
+	clearModalBody();
+	addModalHeader("Add an item");
+
 }

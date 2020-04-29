@@ -1,6 +1,7 @@
 'use strict';
 module.exports = function(app) {
     var managers       = require('./managersController');
+    var auth           = require('./managerAuth.js');
     var inventory      = require('./inventoryController');
     var stores         = require('./storesController');
     var bodyParser     = require('body-parser');
@@ -32,5 +33,8 @@ module.exports = function(app) {
 
     app.route("/store/:storeId")
 	.get(stores.getAStore);
+
+    app.route("/auth")
+	.post(auth.login);
 }
 

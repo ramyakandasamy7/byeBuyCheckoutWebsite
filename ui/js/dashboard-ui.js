@@ -17,7 +17,6 @@ function initUI() {
 	renderContents();
 	renderModal();
 	getAllInventoryFromStore();
-	getAllStores();
 }
 
 function renderContainers() {
@@ -47,7 +46,6 @@ function renderNavigationBar() {
 			+"<div class='container'>"
 				+"<nav class='nav flex-column nav-pills'>"
 					+"<a data-toggle='tab' class='nav-link active' href='#main_inventory_content'>Inventory</a>"
-					+"<a data-toggle='tab' class='nav-link' href='#stores_content'>Stores</a>"
 				+"</nav>"
 			+"</div>"
 		+"</div>"

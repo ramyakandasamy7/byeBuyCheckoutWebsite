@@ -73,8 +73,89 @@ exports.getAllInventoryFromStore = function(req, res) {
 	});
 };
 
-exports.updateAManager = function(req, res) {
+exports.addAnInventory = function(req, res) {
+	var id1 = Math.random().toString(36).substr(2,8);
+	var id2 = Math.random().toString(36).substr(2,4);
+	var id3 = Math.random().toString(36).substr(2,4);
+	var id4 = Math.random().toString(36).substr(2,4);
+	var id5 = Math.random().toString(36).substr(2,6);
+	var id6 = Math.random().toString(36).substr(2,6);
+	var id  = id1+"-"+id2+"-"+id3+"-"+id4+"-"+id5+id6;
+	var date = new Date(Date.now());
+	var params = {
+		TableName: TABLE_NAME,
+		Item: {
+			id: id,
+			name:     req.body.name,
+			barcode:  req.body.barcode,
+			quantity: req.body.quantity,
+			price:    req.body.price,
+			updatedAt: date.toISOString(),
+			_lastChangedAt: date.getTime(),
+			__typename: "Product",
+			_version: 1.0,
+			productStoreId: req.body.storeId
+		}
+	};
+	doc.put(params, (err, data) => {
+		if (err) {
+			console.log(err);
+			res.send(err);
+		} else {
+			console.log(data);
+			res.status(200);
+			res.json({message: "OK"});
+		}
+	});
 };
 
-exports.deleteAManager = function(req, res) {
+exports.updateAnInventory = function(req, res) {
+	console.log(req.body);
+    var params = {
+        TableName: TABLE_NAME,
+        Key: {
+          "id": req.body.id
+        },
+        UpdateExpression:
+          "set #nam=:nam, #barc=:barc, #qty=:qty, #prc=:prc",
+        ExpressionAttributeValues: {
+          ":nam":          req.body.name,
+          ":barc":         req.body.barcode,
+          ":qty":          req.body.quantity,
+          ":prc":          req.body.price,
+        },
+	ExpressionAttributeNames: {
+		"#nam":       "name",
+		"#barc":      "barcode",
+		"#qty":       "quantity",
+		"#prc":       "price",
+	}
+      };
+      doc.update(params, function(err, data) {
+        if (err) {
+	  console.log(err);
+          res.send(err)
+        } else {
+          res.status(200);
+          res.json(data);
+        }
+      });
+};
+
+exports.deleteAnInventory = function(req, res) {
+    var params = {
+        TableName: TABLE_NAME,
+        Key: {
+            id: req.body.id
+        }
+    };
+    doc.delete(params, (err, data) => {
+        if(err) {
+            res.send(err);
+        }
+        else {
+	    res.status(200);
+            res.json(data);
+        }
+    });
 };

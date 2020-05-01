@@ -17,7 +17,10 @@ module.exports = function(app) {
 	.post(managers.authenticateAManager);
 
     app.route("/inventories")
-	.get(inventory.getAllInventories);
+	.get(inventory.getAllInventories)
+	.post(inventory.addAnInventory)
+	.put(inventory.updateAnInventory)
+	.delete(inventory.deleteAnInventory);
 
     app.route("/inventories/:storeId")
 	.get(inventory.getAllInventoryFromStore);

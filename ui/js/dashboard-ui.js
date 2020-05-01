@@ -58,7 +58,7 @@ function renderContents() {
 			+"<div class='tab-content'>"
 				+"<div class='tab-pane fade-in active' id='main_inventory_content'>"
 					+"<h3>Store "+storeId+"'s Inventory</h3>"
-					+"<button type='button' class='btn btn-primary btn-sm mb-5' data-toggle='modal' data-target='#inventory_modal' onclick='showAddItem();'>Add An Item</button>"
+					+"<button type='button' class='btn btn-primary btn-sm mb-5' data-toggle='modal' data-target='#inventory_modal' onclick='showAddItem();'>Add A New Item</button>"
 					+"<table class='table table-striped table-sm' id='inventory_table'></table>"
 				+"</div>"
 				+"<div class='tab-pane fade' id='stores_content'>"
@@ -71,17 +71,20 @@ function renderContents() {
 	);
 }
 
-function renderInventoryTable(data) {
+function renderInventoryTable() {
+	let data = window.ITEMS;
+	
 	console.log("InventoryTable");
 	console.log(data);
 	window.inventoryTable = $("#inventory_table").DataTable({
 		"pageLength": 50,
 		"autoWidth": false,
-		"data":data,
+		"data": data,
 		"columns": [
 			{ "title": "Name",     "data": "name"    },
 			{ "title": "Price",    "data": "price"   },
-			{ "title": "Quantity", "data": "quantity"}
+			{ "title": "Quantity", "data": "quantity"},
+			{ "title": "Options",  "data": "options"},
 		]
 	}); 
 }
@@ -136,5 +139,69 @@ function addModalHeader(txt) {
 function showAddItem() {
 	clearModalBody();
 	addModalHeader("Add an item");
+	$("#modal_body").append(
+		"<div class='input-group input-group-sm mb-3'>"
+                        +"<div class='input-group-prepend'>"
+                                +"<span class='input-group-text'>Product Name</span>"
+                        +"</div>"
+                        +"<input type='text' id='new_name' class='form-control' value='Gatorade Frost'>"
+                +"</div>"
+		+"<div class='input-group input-group-sm mb-3'>"
+                        +"<div class='input-group-prepend'>"
+                                +"<span class='input-group-text'>Barcode</span>"
+                        +"</div>"
+                        +"<input type='text' id='new_barcode' class='form-control' value='854236001191'>"
+                +"</div>"
+		+"<div class='input-group input-group-sm mb-3'>"
+                        +"<div class='input-group-prepend'>"
+                                +"<span class='input-group-text'>Quantity</span>"
+                        +"</div>"
+                        +"<input type='number' id='new_quantity' class='form-control' value='400'>"
+                +"</div>"
+		+"<div class='input-group input-group-sm mb-3'>"
+                        +"<div class='input-group-prepend'>"
+                                +"<span class='input-group-text'>Price [$]</span>"
+                        +"</div>"
+                        +"<input type='number' id='new_price' class='form-control' value='2.50'>"
+                +"</div>"
+		+"<button type='button' class='btn btn-primary btn-sm' onclick='addItemToDB();'>Add Item</button>"
+	);
 
 }
+
+function showEditItem(id) {
+	console.log(id);
+	clearModalBody();
+	addModalHeader("Edit this item");
+	let item = window.ITEMS.find(x => x.id === id);
+	console.log(item);
+	$("#modal_body").append(
+		"<div class='input-group input-group-sm mb-3'>"
+                        +"<div class='input-group-prepend'>"
+                                +"<span class='input-group-text'>Product Name</span>"
+                        +"</div>"
+                        +`<input type='text' id='edit_name' class='form-control' value='${item.name}'>`
+                +"</div>"
+		+"<div class='input-group input-group-sm mb-3'>"
+                        +"<div class='input-group-prepend'>"
+                                +"<span class='input-group-text'>Barcode</span>"
+                        +"</div>"
+                        +`<input type='text' id='edit_barcode' class='form-control' value='${item.barcode}'>`
+                +"</div>"
+		+"<div class='input-group input-group-sm mb-3'>"
+                        +"<div class='input-group-prepend'>"
+                                +"<span class='input-group-text'>Quantity</span>"
+                        +"</div>"
+                        +`<input type='number' id='edit_quantity' class='form-control' value='${item.quantity}'>`
+                +"</div>"
+		+"<div class='input-group input-group-sm mb-3'>"
+                        +"<div class='input-group-prepend'>"
+                                +"<span class='input-group-text'>Price [$]</span>"
+                        +"</div>"
+                        +`<input type='number' id='edit_price' class='form-control' value='${item.price}'>`
+                +"</div>"
+		+"<button type='button' class='btn btn-primary btn-sm' onclick='sendEdit(\""+id+"\");'>Save Changes</button>"
+	);
+
+}
+

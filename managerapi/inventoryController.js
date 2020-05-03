@@ -1,6 +1,7 @@
 'use strict';
 
 const aws = require("aws-sdk");
+var uuid = require("uuid");
 
 aws.config.update({
 	region: "us-east-1",
@@ -74,13 +75,7 @@ exports.getAllInventoryFromStore = function(req, res) {
 };
 
 exports.addAnInventory = function(req, res) {
-	var id1 = Math.random().toString(36).substr(2,8);
-	var id2 = Math.random().toString(36).substr(2,4);
-	var id3 = Math.random().toString(36).substr(2,4);
-	var id4 = Math.random().toString(36).substr(2,4);
-	var id5 = Math.random().toString(36).substr(2,6);
-	var id6 = Math.random().toString(36).substr(2,6);
-	var id  = id1+"-"+id2+"-"+id3+"-"+id4+"-"+id5+id6;
+	var id  = uuid.v4();
 	var date = new Date(Date.now());
 	var params = {
 		TableName: TABLE_NAME,

@@ -81,10 +81,12 @@ function renderInventoryTable() {
 		"autoWidth": false,
 		"data": data,
 		"columns": [
-			{ "title": "Name",     "data": "name"    },
-			{ "title": "Price",    "data": "price"   },
-			{ "title": "Quantity", "data": "quantity"},
-			{ "title": "Options",  "data": "options"},
+			{ "title": "Name",         "data": "name"     },
+			{ "title": "Price",        "data": "price"    },
+			{ "title": "Quantity",     "data": "quantity" },
+			{ "title": "Barcode",      "data": "barcode"  },
+			{ "title": "Last Updated", "data": "updatedAt"},
+			{ "title": "Options",      "data": "options"  },
 		]
 	}); 
 }

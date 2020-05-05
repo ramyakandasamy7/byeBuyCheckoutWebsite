@@ -20,6 +20,12 @@ https.createServer({
 
 console.log(Date.now() + ' -- ByeBuyCheckout Managers RESTful APIs server started on: ' + port);
 
+if (process.env.RUN_TEST) {
+	setTimeout(function() {
+		process.exit(0);
+	}, 3000);
+}
+
 process.once('SIGUSR2', function() {
 	server.close(function() {
 		process.kill(process.pid, 'SIGUSR2')

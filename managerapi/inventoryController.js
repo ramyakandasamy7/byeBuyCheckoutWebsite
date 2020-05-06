@@ -99,7 +99,7 @@ exports.addAnInventory = function(req, res) {
 		} else {
 			console.log(data);
 			res.status(200);
-			res.json({message: "OK"});
+			res.json({message: "OK", id: id});
 		}
 	});
 };

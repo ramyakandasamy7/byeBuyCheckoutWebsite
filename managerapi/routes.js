@@ -25,7 +25,7 @@ module.exports = function(app) {
     app.route("/inventories/:storeId")
 	.get(inventory.getAllInventoryFromStore);
 
-    app.route("/inventory/:itemId")
+    app.route("/inventory/:id")
 	.get(inventory.getAnInventory);
 
     app.route("/stores")

@@ -13,9 +13,7 @@ app.use(bodyParser.json());
 var routes = require('./routes'); //importing route
 routes(app); //register the route
 
-app.listen(port);
-
-/*https.createServer({
+https.createServer({
 	key: fs.readFileSync('certs/key.pem'),
 	cert: fs.readFileSync('certs/cert.pem')
 },app).listen(port);
@@ -32,6 +30,6 @@ process.once('SIGUSR2', function() {
 	server.close(function() {
 		process.kill(process.pid, 'SIGUSR2')
 	});
-});*/
+});
 
 
